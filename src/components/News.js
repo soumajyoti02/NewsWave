@@ -17,8 +17,8 @@ const News = (props) => {
 
     const updateNews = async () => {
         props.setProgress(10);
-        // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page}&pageSize=${props.pageSize}`;
-        const url = `https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=2eab5624909343ad8228524eaac934c1&page=1&pageSize=6`;
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page}&pageSize=${props.pageSize}`;
+        // const url = `http://api.mediastack.com/v1/news?access_key=afc54e8441e2f7d6c3281828ccedbb38&countries=us,gb,de`;
         setLoading(true)
         console.log(url)
         let data = await fetch(url);
@@ -39,8 +39,8 @@ const News = (props) => {
 
 
     const fetchMoreData = async () => {
-        // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page + 1}&pageSize=${props.pageSize}`;
-        const url = `https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=2eab5624909343ad8228524eaac934c1&page=1&pageSize=6`;
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page + 1}&pageSize=${props.pageSize}`;
+        // const url = `https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=2eab5624909343ad8228524eaac934c1&page=1&pageSize=6`;
         setPage(page + 1)
         let data = await fetch(url);
         let parsedData = await data.json()
