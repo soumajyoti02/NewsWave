@@ -17,16 +17,15 @@ const News = (props) => {
 
     const updateNews = async () => {
         props.setProgress(10);
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page}&pageSize=${props.pageSize}`;
-        // const url = `http://api.mediastack.com/v1/news?access_key=afc54e8441e2f7d6c3281828ccedbb38&countries=us,gb,de`;
+        // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page}&pageSize=${props.pageSize}`;
+        const url = `http://api.mediastack.com/v1/news?access_key=afc54e8441e2f7d6c3281828ccedbb38&countries=${props.country}&categories=${props.category}&limit=${props.pageSize}&offset=${page}`;
         setLoading(true)
-        console.log(url)
         let data = await fetch(url);
         props.setProgress(30);
         let parsedData = await data.json()
         props.setProgress(70);
-        setArticles(parsedData.articles)
-        setTotalResults(parsedData.totalResults)
+        setArticles(parsedData.data)
+        setTotalResults(parsedData.pagination.total)
         setLoading(false)
         props.setProgress(100);
     }
@@ -39,13 +38,13 @@ const News = (props) => {
 
 
     const fetchMoreData = async () => {
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page + 1}&pageSize=${props.pageSize}`;
-        // const url = `https://newsapi.org/v2/top-headlines?country=in&category=general&apiKey=2eab5624909343ad8228524eaac934c1&page=1&pageSize=6`;
+        // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=2eab5624909343ad8228524eaac934c1&page=${page + 1}&pageSize=${props.pageSize}`;
+        const url = `http://api.mediastack.com/v1/news?access_key=afc54e8441e2f7d6c3281828ccedbb38&countries=${props.country}&categories=${props.category}&limit=${props.pageSize}&offset=${page}`;
         setPage(page + 1)
         let data = await fetch(url);
         let parsedData = await data.json()
-        setArticles(articles.concat(parsedData.articles))
-        setTotalResults(parsedData.totalResults)
+        setArticles(articles.concat(parsedData.data))
+        setTotalResults(parsedData.pagination.total)
     };
 
 
@@ -63,7 +62,7 @@ const News = (props) => {
                     <div className="row">
                         {articles.map((element) => {
                             return <div className="col-md-4" key={element.url}>
-                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
+                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.image} newsUrl={element.url} author={element.author} date={element.published_at} source={element.source} />
                             </div>
                         })}
                     </div>
